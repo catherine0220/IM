@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useState } from 'react';
 import { Link, useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -135,7 +135,7 @@ const RegisterScreen = () => {
           <View /> 
           <Link href="/login" asChild>
             <TouchableOpacity>
-              <Text style={styles.linkText}>已有用户</Text>
+              <Text style={styles.linkText}>已有户口</Text>
             </TouchableOpacity>
           </Link>
         </View>
