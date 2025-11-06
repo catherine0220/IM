@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'; // 使用 Expo 的图标库
 import { LinearGradient } from 'expo-linear-gradient'; // Expo版
 import React, { useState } from 'react';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -15,6 +15,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginScreen = () => {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -33,8 +34,10 @@ const LoginScreen = () => {
     setIsLoading(true);
     try {
       console.log('Login attempt with:', username, password);
+      // 替换为真实的 API 调用
       await new Promise(resolve => setTimeout(resolve, 1000));
-      Alert.alert('成功', '登录成功！');
+      // 登录成功后，跳转到主页
+      router.replace('/(tabs)/home');
     } catch (error) {
       console.error('Login error:', error);
       Alert.alert('错误', '登录失败');
