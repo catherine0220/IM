@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
+import { Stack, Link } from 'expo-router';
 import React from 'react';
 import {
   FlatList,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -142,24 +143,28 @@ const ChatItem = ({ item }: { item: ChatItemType }) => {
   };
 
   return (
-    <View style={styles.chatItemContainer}>
-      {/* 左侧：头像 + 角标 */}
-      <View style={styles.avatarWrapper}>
-        {renderAvatar()}
-        {renderBadge()}
-      </View>
+    <Link href={`/${item.id}`} asChild>
+      <TouchableOpacity>
+        <View style={styles.chatItemContainer}>
+          {/* 左侧：头像 + 角标 */}
+          <View style={styles.avatarWrapper}>
+            {renderAvatar()}
+            {renderBadge()}
+          </View>
 
-      {/* 中间：姓名 + 消息 */}
-      <View style={styles.textContainer}>
-        <Text style={styles.nameText}>{item.name}</Text>
-        <Text style={styles.messageText} numberOfLines={1}>{item.lastMessage}</Text>
-      </View>
+          {/* 中间：姓名 + 消息 */}
+          <View style={styles.textContainer}>
+            <Text style={styles.nameText}>{item.name}</Text>
+            <Text style={styles.messageText} numberOfLines={1}>{item.lastMessage}</Text>
+          </View>
 
-      {/* 右侧：时间 */}
-      <View style={styles.metaContainer}>
-        <Text style={styles.timeText}>{item.time}</Text>
-      </View>
-    </View>
+          {/* 右侧：时间 */}
+          <View style={styles.metaContainer}>
+            <Text style={styles.timeText}>{item.time}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Link>
   );
 };
 
