@@ -4,6 +4,7 @@ import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -57,6 +58,10 @@ const RegisterScreen = () => {
   const isButtonDisabled = isLoading || !nickname || !username || !password || !confirmPassword || !isChecked;
 
   return (
+         <LinearGradient
+          colors={['#FFEFb0', '#FFF9E5']}  // 💛 上到下的渐变色
+          style={styles.safeArea}
+        >
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.bgShape1} />
       <View style={styles.bgShape2} />
@@ -65,7 +70,12 @@ const RegisterScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-        <Text style={styles.title}>注册</Text>
+        <Image 
+        source={require('../assets/images/logo.png')} 
+        style={styles.logo} 
+      />
+      
+      <Text style={styles.title}>注册</Text>
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -170,14 +180,20 @@ const RegisterScreen = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 // Using the same styles as LoginScreen
 const styles = StyleSheet.create({
+  logo: {
+    width: 180,
+    height: 100,
+    marginBottom: 30,
+  },
   safeArea: {
     flex: 1,
-    backgroundColor: '#f4f7ff',
+    // backgroundColor: '#f4f7ff',
   },
   bgShape1: {
     position: 'absolute',
@@ -201,9 +217,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 25,
+    paddingTop:80,
   },
   title: {
     fontSize: 28,
