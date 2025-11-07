@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: '500',
+    textAlign: 'center',
     color: '#374151',
     marginBottom: 12,
   },

@@ -1,16 +1,17 @@
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Image,
   Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as ImagePicker from 'expo-image-picker';
 
 interface MenuItem {
   icon: keyof typeof Ionicons.glyphMap;
@@ -18,8 +19,9 @@ interface MenuItem {
 }
 
 const ProfileMenu: React.FC = () => {
+  const navigation = useNavigation(); // ✅ 放在组件内部
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
-
+  
   const menuItems: MenuItem[] = [
     { icon: 'star-outline', label: '我的收藏' },
     { icon: 'person-outline', label: '联系客服' },
@@ -27,6 +29,17 @@ const ProfileMenu: React.FC = () => {
     { icon: 'settings-outline', label: '设置' },
     { icon: 'people-outline', label: '会员' },
   ];
+
+   const handleMenuPress = (label: string) => {
+    switch (label) {
+      case '设置':
+        navigation.navigate('setting' as never);
+        break;
+      default:
+        console.log(`Pressed: ${label}`);
+        break;
+    }
+  };
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -85,10 +98,6 @@ const ProfileMenu: React.FC = () => {
 
   const handleQRPress = () => {
     console.log('QR code pressed');
-  };
-
-  const handleMenuPress = (label: string) => {
-    console.log(`Pressed: ${label}`);
   };
 
   const handleLogout = () => {
