@@ -4,7 +4,6 @@ import { Text, View, StyleSheet } from 'react-native';
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: '设置' }} />
       <Text style={styles.text}>这是设置页面</Text>
     </View>
   );
