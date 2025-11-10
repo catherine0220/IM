@@ -1,8 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import { Link } from 'expo-router';
 import React, { useState } from 'react';
-
 import {
   Alert,
   Image,
@@ -20,7 +19,6 @@ interface MenuItem {
 }
 
 const ProfileMenu: React.FC = () => {
-  const navigation = useNavigation(); // ✅ 放在组件内部
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
 
   const menuItems: MenuItem[] = [
@@ -31,22 +29,15 @@ const ProfileMenu: React.FC = () => {
     { icon: 'people-outline', label: '会议' },
   ];
 
-   const handleMenuPress = (label: string) => {
-    switch (label) {
-      case '设置':
-        navigation.navigate('setting' as never);
-        break;
-      default:
-        console.log(`Pressed: ${label}`);
-        break;
-    }
-  };
-
   const pickImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
     if (permissionResult.granted === false) {
-      Alert.alert('Permission Required', 'Permission to access camera roll is required!');
+      Alert.alert(
+        'Permission Required',
+        'Permission to access camera roll is required!',
+      );
       return;
     }
 
@@ -64,9 +55,12 @@ const ProfileMenu: React.FC = () => {
 
   const takePhoto = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    
+
     if (permissionResult.granted === false) {
-      Alert.alert('Permission Required', 'Permission to access camera is required!');
+      Alert.alert(
+        'Permission Required',
+        'Permission to access camera is required!',
+      );
       return;
     }
 
@@ -82,15 +76,11 @@ const ProfileMenu: React.FC = () => {
   };
 
   const handleAvatarPress = () => {
-    Alert.alert(
-      'Change Avatar',
-      'Choose an option',
-      [
-        { text: 'Take Photo', onPress: takePhoto },
-        { text: 'Choose from Library', onPress: pickImage },
-        { text: 'Cancel', style: 'cancel' },
-      ]
-    );
+    Alert.alert('Change Avatar', 'Choose an option', [
+      { text: 'Take Photo', onPress: takePhoto },
+      { text: 'Choose from Library', onPress: pickImage },
+      { text: 'Cancel', style: 'cancel' },
+    ]);
   };
 
   const handleProfilePress = () => {
@@ -107,19 +97,19 @@ const ProfileMenu: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}>
         {/* Profile Card */}
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.profileCard}
           activeOpacity={0.8}
-          onPress={handleProfilePress}
-        >
+          onPress={handleProfilePress}>
           <View style={styles.profileLeft}>
-            <TouchableOpacity 
-              style={styles.avatarContainer} 
+            <TouchableOpacity
+              style={styles.avatarContainer}
               activeOpacity={0.8}
-              onPress={handleAvatarPress}
-            >
+              onPress={handleAvatarPress}>
               {avatarUri ? (
                 <Image source={{ uri: avatarUri }} style={styles.avatar} />
               ) : (
@@ -134,35 +124,52 @@ const ProfileMenu: React.FC = () => {
             </View>
           </View>
           <View style={styles.profileRight}>
-            <TouchableOpacity 
-              style={styles.qrButton} 
+            <TouchableOpacity
+              style={styles.qrButton}
               activeOpacity={0.7}
-              onPress={handleQRPress}
-            >
+              onPress={handleQRPress}>
               <Ionicons name="qr-code-outline" size={20} color="#9CA3AF" />
             </TouchableOpacity>
-            <Ionicons name="chevron-forward" size={20} color="#9CA3AF" style={styles.chevron} />
+            <Ionicons
+              name="chevron-forward"
+              size={20}
+              color="#9CA3AF"
+              style={styles.chevron}
+            />
           </View>
         </TouchableOpacity>
 
         {/* Menu Items */}
         <View style={styles.menuContainer}>
-          {menuItems.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.menuItem}
-              activeOpacity={0.7}
-              onPress={() => handleMenuPress(item.label)}
-            >
-              <View style={styles.menuItemLeft}>
-                <View style={styles.iconContainer}>
-                  <Ionicons name={item.icon} size={20} color="#1F2937" />
+          {menuItems.map((item, index) =>
+            item.label === '设置' ? (
+              <Link key={index} href="/settings" asChild>
+                <TouchableOpacity style={styles.menuItem} activeOpacity={0.7}>
+                  <View style={styles.menuItemLeft}>
+                    <View style={styles.iconContainer}>
+                      <Ionicons name={item.icon} size={20} color="#1F2937" />
+                    </View>
+                    <Text style={styles.menuItemText}>{item.label}</Text>
+                  </View>
+                  <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+                </TouchableOpacity>
+              </Link>
+            ) : (
+              <TouchableOpacity
+                key={index}
+                style={styles.menuItem}
+                activeOpacity={0.7}
+                onPress={() => console.log(`Pressed: ${item.label}`)}>
+                <View style={styles.menuItemLeft}>
+                  <View style={styles.iconContainer}>
+                    <Ionicons name={item.icon} size={20} color="#1F2937" />
+                  </View>
+                  <Text style={styles.menuItemText}>{item.label}</Text>
                 </View>
-                <Text style={styles.menuItemText}>{item.label}</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
-            </TouchableOpacity>
-          ))}
+                <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+              </TouchableOpacity>
+            ),
+          )}
         </View>
 
         {/* Logout Button */}
