@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
+
 import {
   Alert,
   Image,
@@ -21,13 +22,13 @@ interface MenuItem {
 const ProfileMenu: React.FC = () => {
   const navigation = useNavigation(); // ✅ 放在组件内部
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
-  
+
   const menuItems: MenuItem[] = [
     { icon: 'star-outline', label: '我的收藏' },
     { icon: 'person-outline', label: '联系客服' },
     { icon: 'help-circle-outline', label: '帮助中心' },
     { icon: 'settings-outline', label: '设置' },
-    { icon: 'people-outline', label: '会员' },
+    { icon: 'people-outline', label: '会议' },
   ];
 
    const handleMenuPress = (label: string) => {
